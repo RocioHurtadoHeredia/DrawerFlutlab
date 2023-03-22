@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  static const String _title = 'Flutter Stateful Clicker Counter';
+  static const String _title = 'Drawer en flutter';
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -13,80 +13,104 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      debugShowCheckedModeBanner: false,
+      home: const NavigationDrawerDemo(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-  // This class is the configuration for the state.
+class NavigationDrawerDemo extends StatefulWidget {
+  const NavigationDrawerDemo({Key? key}) : super(key: key);
+
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<NavigationDrawerDemo> createState() => _NavigationDrawerDemoState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
+class _NavigationDrawerDemoState extends State<NavigationDrawerDemo> {
+  final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
+      key: _key,
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text('Flutter Demo Click Counter'),
+        title: const Text('Act 3 Drawer Hurtado'),
+        backgroundColor: const Color(0xff8f90d4),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+      drawer: Drawer(
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            const UserAccountsDrawerHeader(
+              decoration: BoxDecoration(color: Color(0xff8f90d4)),
+              accountName: Text(
+                "Rocio Hurtado",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                ),
+              ),
+              accountEmail: Text(
+                "rocihurt06@gmail.com",
+                style: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 20,
+                ),
+              ),
+              currentAccountPicture: FlutterLogo(),
             ),
-            Text(
-              '$_counter',
-              style: TextStyle(fontSize: 25),
+            ListTile(
+              leading: Icon(
+                Icons.home,
+              ),
+              title: const Text('Pagina 1'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.add_alert,
+              ),
+              title: const Text('Pagina 2'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            AboutListTile(
+              // <-- SEE HERE
+              icon: Icon(
+                Icons.info,
+              ),
+              child: Text('Acerca de'),
+              applicationIcon: Icon(
+                Icons.heat_pump_rounded,
+              ),
+              applicationName: 'Mi Aplicacion',
+              applicationVersion: '1.0.25',
+              applicationLegalese: '© 2019 Company',
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+      body: Center(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 50,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _key.currentState!.openDrawer(); //<-- SEE HERE
+              },
+              child: const Text(
+                'Elevated Button 1',
+                style: TextStyle(fontSize: 24),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
-
