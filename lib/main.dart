@@ -101,10 +101,11 @@ class _NavigationDrawerDemoState extends State<NavigationDrawerDemo> {
             ),
             ElevatedButton(
               onPressed: () {
-                _key.currentState!.openDrawer(); //<-- SEE HERE
+                _key.currentState!.openDrawer();
+                //<-- SEE HERE
               },
               child: const Text(
-                'Elevated Button 1',
+                'Boton drawer',
                 style: TextStyle(fontSize: 24),
               ),
             ),
