@@ -14,21 +14,24 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: const MyHomePage(),
+      home: const NavigationDrawerDemo(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class NavigationDrawerDemo extends StatefulWidget {
+  const NavigationDrawerDemo({Key? key}) : super(key: key);
+
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<NavigationDrawerDemo> createState() => _NavigationDrawerDemoState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _NavigationDrawerDemoState extends State<NavigationDrawerDemo> {
+  final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _key,
       appBar: AppBar(
         title: const Text('Act 3 Drawer Hurtado'),
         backgroundColor: const Color(0xff8f90d4),
@@ -74,14 +77,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.pop(context);
               },
             ),
-            ListTile(
-              leading: Icon(
-                Icons.add_card_outlined,
+            AboutListTile(
+              // <-- SEE HERE
+              icon: Icon(
+                Icons.info,
               ),
-              title: const Text('Pagina 3'),
-              onTap: () {
-                Navigator.pop(context);
-              },
+              child: Text('Acerca de'),
+              applicationIcon: Icon(
+                Icons.heat_pump_rounded,
+              ),
+              applicationName: 'Mi Aplicacion',
+              applicationVersion: '1.0.25',
+              applicationLegalese: '© 2019 Company',
             ),
           ],
         ),
@@ -92,10 +99,19 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(
               height: 50,
             ),
+            ElevatedButton(
+              onPressed: () {
+                _key.currentState!.openDrawer();
+                //<-- SEE HERE
+              },
+              child: const Text(
+                'Boton drawer',
+                style: TextStyle(fontSize: 24),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 }
-
